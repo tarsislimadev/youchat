@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var server = require('http').createServer(app);
-var io = require('../lib')(server);
+var io = require('./lib')(server);
 var port = process.env.PORT || 3000;
 
 server.listen(port, () => {
