@@ -3,13 +3,14 @@
   "version": "0.0.0",
   "description": "A simple chat client using socket.io",
   "main": "index.js",
-  "author": "Grant Timmerman",
+  "author": "Tarsis de Lima",
   "private": true,
-  "license": "BSD",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.16.3"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "production": "npm install"
   }
 }
