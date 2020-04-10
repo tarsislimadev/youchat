@@ -12,6 +12,7 @@ server.listen(port, () => {
 
 // Routing
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/*', (_, res) => res.status(666).send('Not here'));
 
 // Chatroom
 
@@ -47,14 +48,14 @@ io.on('connection', (socket) => {
             return;
 
         socket.username = username;
-        ++user.numbers;
+        ++users.numbers;
         addedUser = true;
         socket.emit('login', {
-            numUsers: user.numbers
+            numUsers: users.numbers
         });
         socket.broadcast.emit('user joined', {
             username: socket.username,
-            numUsers: user.numbers
+            numUsers: users.numbers
         });
     });
 
@@ -72,11 +73,11 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         if (addedUser) {
-            --user.numbers;
+            --users.numbers;
 
             socket.broadcast.emit('user left', {
                 username: socket.username,
-                numUsers: user.numbers
+                numUsers: users.numbers
             });
         }
     });
