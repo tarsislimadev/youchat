@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ideal</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "@brtmvdl/frontend": "../../libs/@brtmvdl/frontend/src/index.js"
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script type="module">
+    import { HTML } from '@brtmvdl/frontend'
+    import { Page } from './index.js'
+    import { io } from 'https://cdn.socket.io/4.7.4/socket.io.esm.min.js'
+
+    const page = new Page()
+    page.on('input', (message) => console.log({ message }))
+    HTML.fromId('app').append(page)
+    HTML.fromElement(document.body).setStyle('margin', '0px')
+
+    io('http://localhost:8080').on('connection', (socket) => {
+      setInterval(() => socket.send(JSON.stringify({ message: Date.now() })), 1000)
+      socket.on('message', (message) => page.dispatchEvent('output', message))
+    })
+  </script>
+</body>
+
+</html>
